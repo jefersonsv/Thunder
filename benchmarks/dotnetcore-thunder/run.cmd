@@ -1,0 +1,1 @@
+dotnet dotnetcore-thunder.dll
