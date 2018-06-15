@@ -22,11 +22,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{A46D57
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld", "sample\HelloWorld\HelloWorld.csproj", "{F5569F72-1384-42FF-AEFA-522F28C271FF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{F2D0CAEA-5138-4BCC-A988-CF14B6317F06}"
-	ProjectSection(SolutionItems) = preProject
-		nuget\Thunder.nuspec = nuget\Thunder.nuspec
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
