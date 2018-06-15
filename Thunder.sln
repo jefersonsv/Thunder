@@ -20,7 +20,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnetcore-thunder", "bench
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{A46D57CA-78A7-414D-AA96-CDBB54EC36B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld", "sample\HelloWorld\HelloWorld.csproj", "{F5569F72-1384-42FF-AEFA-522F28C271FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld", "sample\HelloWorld\HelloWorld.csproj", "{F5569F72-1384-42FF-AEFA-522F28C271FF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{F2D0CAEA-5138-4BCC-A988-CF14B6317F06}"
+	ProjectSection(SolutionItems) = preProject
+		nuget\Thunder.nuspec = nuget\Thunder.nuspec
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

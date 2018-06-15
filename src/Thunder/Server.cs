@@ -1,71 +1,94 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
+using System.Collections.ObjectModel;
+using System.Net;
 using System.Reflection;
-using System.Text;
-using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.IO;
 
 namespace Thunder
 {
-    public class Server
+    public class KeyValuePairList<Tkey, TValue> : List<KeyValuePair<Tkey, TValue>>
     {
-        public static Assembly CallingAssembly { get; set; }
-
-        //public Startup(IConfiguration configuration)
-        //{
-        //    Configuration = configuration;
-        //}
-
-        //public IConfiguration Configuration { get; }
-
-        public void ConfigureServices(IServiceCollection services)
+        public void Add(Tkey key, TValue value)
         {
-            services.AddMvcCore()
-                .AddJsonFormatters() // https://offering.solutions/blog/articles/2017/02/07/difference-between-addmvc-addmvcore/
-                .AddApplicationPart(CallingAssembly) // https://stackoverflow.com/questions/37725934/asp-net-core-mvc-controllers-in-separate-assembly
-                .AddControllersAsServices();
-            //.SetCompatibilityVersion(CompatibilityVersion.Version_2_1);            
+            base.Add(new KeyValuePair<Tkey, TValue>(key, value));
+        }
+    }
+
+    public static class Server
+    {
+        internal static readonly Dictionary<string, KeyValuePairList<Predicate<string>, Func<HttpContext, Task>>> Routes = new Dictionary<string, KeyValuePairList<Predicate<string>, Func<HttpContext, Task>>>();
+
+        static void SetupMethods()
+        {
+            new string[] { "GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH" }.ToList().ForEach(e =>
+                    Routes.TryAdd(e, new KeyValuePairList<Predicate<string>, Func<HttpContext, Task>>())
+            );
         }
 
-
-        /// <summary>
-        /// https://docs.microsoft.com/pt-br/aspnet/core/mvc/controllers/routing?view=aspnetcore-2.1
-        /// https://radu-matei.com/blog/aspnet-core-routing/
-        /// https://docs.microsoft.com/pt-br/aspnet/core/fundamentals/routing?view=aspnetcore-2.1
-        /// </summary>
-        public readonly static Dictionary<string, RequestDelegate> AddRoutesGet = new Dictionary<string, RequestDelegate>();
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app)
+        static public void Get(string pathRoute, Func<HttpContext, Task> action)
         {
-            //app.UseHttpsRedirection();
+            pathRoute = pathRoute.StartsWith("/") ? pathRoute : "/" + pathRoute;
+            SetupMethods();
+            Routes["GET"].Add(s => s.Equals(pathRoute, StringComparison.InvariantCultureIgnoreCase), action);
+        }
 
-            //loggerFactory.m
+        static public void Post(string pathRoute, Func<HttpContext, Task> action)
+        {
+            pathRoute = pathRoute.StartsWith("/") ? pathRoute : "/" + pathRoute;
+            SetupMethods();
+            Routes["POST"].Add(s => s.Equals(pathRoute, StringComparison.InvariantCultureIgnoreCase), action);
+        }
 
-            // Serve my app-specific default file, if present.
-            /*
-            DefaultFilesOptions options = new DefaultFilesOptions();
-            options.DefaultFileNames.Clear();
-            options.DefaultFileNames.Add("mydefault.html");
-            app.UseDefaultFiles(options);
-            */
+        static public void GetRegex(string regex, Func<HttpContext, Task> func)
+        {
+            regex = regex.StartsWith("/") ? regex : "/" + regex;
+            SetupMethods();
+            Routes["GET"].Add(s => new Regex(regex, RegexOptions.Compiled).IsMatch(s), func);
+        }
 
+        static public void PostRegex(string regex, Func<HttpContext, Task> func)
+        {
+            regex = regex.StartsWith("/") ? regex : "/" + regex;
+            SetupMethods();
+            Routes["POST"].Add(s => new Regex(regex, RegexOptions.Compiled).IsMatch(s), func);
+        }
 
-            RouteBuilder routes = new RouteBuilder(app);
-            foreach (var item in AddRoutesGet)
-                routes.MapGet(item.Key, item.Value);
+        static public void SetViews(string relativePath)
+        {
+            var folder = Path.Combine(Environment.CurrentDirectory, relativePath);
+            DirectoryInfo dir = new DirectoryInfo(folder);
 
-            app.UseRouter(routes.Build());
-            app.UseMvc();
+            foreach (var item in Directory.GetFiles(folder, "*.html", SearchOption.AllDirectories))
+            {
+                FileInfo fi = new FileInfo(item);
+                Func<HttpContext, Task> func = async delegate (HttpContext context)
+                {
+                    await context.Response.WriteAsync(await File.ReadAllTextAsync(item));
+                };
+
+                var relativeRoute = fi.FullName.Remove(fi.FullName.Length - fi.Extension.Length, fi.Extension.Length) // remove extension
+                                .Remove(0, dir.FullName.Length) // remove fixed path
+                                .Replace(Path.DirectorySeparatorChar, '/'); // change path separator
+
+                Get(relativeRoute, func);
+            }
+        }
+
+        static public void Run()
+        {
+            WebHost.CreateDefaultBuilder(null)
+                .UseStartup<Runner>()
+                .Build()
+                .Run();
         }
     }
 }

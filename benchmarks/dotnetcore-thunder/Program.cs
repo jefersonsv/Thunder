@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Http;
 using Thunder;
 
@@ -8,8 +9,8 @@ namespace Dotnetcore.Thunder
     {
         static void Main(string[] args)
         {
-            Server.AddRoutesGet.Add("/hello", async context => await context.Response.WriteAsync("Hello from /hello"));
-            ServerBuilder.Run();
+            Server.Get("/hello", context => context.Response.WriteAsync("Hello from /hello"));
+            Server.Run();
         }
     }
 }
