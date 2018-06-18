@@ -4,7 +4,7 @@ Thunder web framework where productivity and performance go together
 ## Benchmark comparative
 The folder ` .\benchmarks ` contains some battles of Thunder web framework against Iris (golang), Flask (python), Expressjs (nodejs)
 
-![battle Thunder vs Iris](https://raw.githubusercontent.com/thunder/benchmarks/battle-dotnet-vs-golang.gif)
+![battle Thunder vs Iris](https://github.com/jefersonsv/Thunder/raw/master/benchmarks/battle-dotnet-vs-golang.gif)
 
 > Throughput Thunder (.NET Core): 6.31MB/s
 > Throughput Iris (golang): 6.28MB/s
@@ -31,6 +31,6 @@ Server.SetViews(".\\wwwroot");
 Server.Run();
 ```
 ## To uninstall template
-```
+```sh
 dotnet new -u "Thunder.Web.Framework.Template::*"
 ```
