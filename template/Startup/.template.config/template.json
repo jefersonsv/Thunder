@@ -3,6 +3,10 @@
   "author": "Jeferson Tenorio",
   "classifications": [ "csharp", "thunder", "web", "framework" ],
   "identity": "Thunder.Web.Framework.Template",
-  "name": "Thunder.Web.Framework.Template",
-  "shortName": "thunder"
+  "name": "Thunder Web Framework Template",
+  "shortName": "thunder",
+  "tags": {
+    "language": "C#"
+  },
+  "sourceName": "Startup"
 }
