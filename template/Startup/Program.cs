@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Thunder;
 
-namespace FastestThunder
+namespace Startup
 {
     internal class Program
     {

@@ -5,13 +5,15 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <ApplicationIcon />
     <StartupObject />
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.9</Version>
+    <Authors>Jeferson Tenorio</Authors>
+    <Company></Company>
+    <Product>Thunder.Web.Framework</Product>
+    <RepositoryUrl>https://github.com/jefersonsv/Thunder</RepositoryUrl>
+    <PackageId>Thunder.Web.Framework</PackageId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove=".template.config\**" />
-    <EmbeddedResource Remove=".template.config\**" />
-    <None Remove=".template.config\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.0" />
