@@ -11,12 +11,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		deploy.cmd = deploy.cmd
 		LICENSE = LICENSE
 		README.md = README.md
-		template\Startup\.template.config\template.json = template\Startup\.template.config\template.json
+		template\content\.template.config\template.json = template\content\.template.config\template.json
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Thunder", "src\Thunder\Thunder.csproj", "{16941987-F64D-469B-B271-18EC874F693D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "benchmarks", "benchmarks", "{43C1D0B5-DB75-467C-B381-0341C5C7940E}"
+	ProjectSection(SolutionItems) = preProject
+		benchmarks\battle-dotnet-vs-golang.gif = benchmarks\battle-dotnet-vs-golang.gif
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnetcore-thunder", "benchmarks\dotnetcore-thunder\dotnetcore-thunder.csproj", "{AA400815-A1DA-4EC7-BFA3-E3732189EA1F}"
 EndProject
