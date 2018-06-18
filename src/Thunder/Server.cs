@@ -7,7 +7,6 @@ using System.Reflection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -15,53 +14,10 @@ using System.IO;
 
 namespace Thunder
 {
-    public class KeyValuePairList<Tkey, TValue> : List<KeyValuePair<Tkey, TValue>>
+    
+
+    public  static partial class Server
     {
-        public void Add(Tkey key, TValue value)
-        {
-            base.Add(new KeyValuePair<Tkey, TValue>(key, value));
-        }
-    }
-
-    public static class Server
-    {
-        internal static readonly Dictionary<string, KeyValuePairList<Predicate<string>, Func<HttpContext, Task>>> Routes = new Dictionary<string, KeyValuePairList<Predicate<string>, Func<HttpContext, Task>>>();
-
-        static void SetupMethods()
-        {
-            new string[] { "GET", "HEAD", "POST", "PUT", "DELETE", "CONNECT", "OPTIONS", "TRACE", "PATCH" }.ToList().ForEach(e =>
-                    Routes.TryAdd(e, new KeyValuePairList<Predicate<string>, Func<HttpContext, Task>>())
-            );
-        }
-
-        static public void Get(string pathRoute, Func<HttpContext, Task> action)
-        {
-            pathRoute = pathRoute.StartsWith("/") ? pathRoute : "/" + pathRoute;
-            SetupMethods();
-            Routes["GET"].Add(s => s.Equals(pathRoute, StringComparison.InvariantCultureIgnoreCase), action);
-        }
-
-        static public void Post(string pathRoute, Func<HttpContext, Task> action)
-        {
-            pathRoute = pathRoute.StartsWith("/") ? pathRoute : "/" + pathRoute;
-            SetupMethods();
-            Routes["POST"].Add(s => s.Equals(pathRoute, StringComparison.InvariantCultureIgnoreCase), action);
-        }
-
-        static public void GetRegex(string regex, Func<HttpContext, Task> func)
-        {
-            regex = regex.StartsWith("/") ? regex : "/" + regex;
-            SetupMethods();
-            Routes["GET"].Add(s => new Regex(regex, RegexOptions.Compiled).IsMatch(s), func);
-        }
-
-        static public void PostRegex(string regex, Func<HttpContext, Task> func)
-        {
-            regex = regex.StartsWith("/") ? regex : "/" + regex;
-            SetupMethods();
-            Routes["POST"].Add(s => new Regex(regex, RegexOptions.Compiled).IsMatch(s), func);
-        }
-
         static public void SetViews(string relativePath)
         {
             var folder = Path.Combine(Environment.CurrentDirectory, relativePath);
@@ -83,10 +39,12 @@ namespace Thunder
             }
         }
 
-        static public void Run()
+        public static void Run()
         {
-            WebHost.CreateDefaultBuilder(null)
-                .UseStartup<Runner>()
+            var builder = WebHost.CreateDefaultBuilder(null)
+                .UseStartup<Runner>();
+
+            builder
                 .Build()
                 .Run();
         }

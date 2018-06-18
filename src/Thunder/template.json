@@ -1,8 +1,0 @@
-{
-  "$schema": "http://json.schemastore.org/template",
-  "author": "Jeferson Tenorio",
-  "classifications": [ "csharp", "kestrel" ],
-  "identity": "thunder",
-  "name": "Thunder Web Framework",
-  "shortName": "thunder"
-}
