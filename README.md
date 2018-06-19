@@ -6,15 +6,14 @@ The folder ` .\benchmarks ` contains some battles of Thunder web framework again
 
 ![battle Thunder vs Iris](https://github.com/jefersonsv/Thunder/raw/master/benchmarks/battle-dotnet-vs-golang.gif)
 
-> Throughput Thunder (.NET Core): 6.31MB/s
-> Throughput Iris (golang): 6.28MB/s
+> Throughput: **Thunder** (.NET Core): 6.31MB/s vs **Iris** (golang): 6.28MB/s
 
 ## How can I get it? (template mode)
 
 1. Install the latest .NET Core SDK.
-2. Run ` dotnet new -i "Thunder.Web.Framework.Template::*" ` to install the project template.
+2. Run ` dotnet new -i Thunder.Web.Framework.Template ` to install the project template.
 3. Run ` dotnet new thunder --help ` to see how to select the feature of the project.
-4. Run ` dotnet new thunder --name "FastestServer" ` to create a project from the template.
+4. Run ` dotnet new thunder --name FastestServer ` to create a project from the template.
 
 ## How can I get it? (nuget references)
 
@@ -32,5 +31,5 @@ Server.Run();
 ```
 ## To uninstall template
 ```sh
-dotnet new -u "Thunder.Web.Framework.Template::*"
+dotnet new -u Thunder.Web.Framework.Template
 ```

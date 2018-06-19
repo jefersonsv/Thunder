@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Thunder.Web.Framework.Template</id>
-    <version>1.0.9</version>
+    <version>1.0.11</version>
     <description>
       Thunder web framework where productivity and performance go together
     </description>

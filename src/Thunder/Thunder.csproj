@@ -12,6 +12,8 @@
     <Product>Thunder.Web.Framework</Product>
     <RepositoryUrl>https://github.com/jefersonsv/Thunder</RepositoryUrl>
     <PackageId>Thunder.Web.Framework</PackageId>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/jefersonsv/Thunder/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/jefersonsv/Thunder</PackageProjectUrl>
   </PropertyGroup>
 
 

@@ -30,6 +30,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "template", "template", "{4CE810D4-98F2-45B7-BDB2-003863E5F81E}"
 	ProjectSection(SolutionItems) = preProject
 		template\deploy-template.cmd = template\deploy-template.cmd
+		template\Thunder.Web.Framework.Template.nuspec = template\Thunder.Web.Framework.Template.nuspec
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Startup", "template\content\src\Startup.csproj", "{822AC1E5-F48F-4A38-8EDB-994AD3D3598E}"
