@@ -24,8 +24,6 @@ namespace Thunder
         //        await context.Response.WriteAsync("Map Test 1");
         //    });
         //}
-
-
         // https://docs.microsoft.com/pt-br/aspnet/core/fundamentals/middleware/?view=aspnetcore-2.1&tabs=aspnetcore2x
         public void Configure(IApplicationBuilder app)
         {
@@ -48,6 +46,9 @@ namespace Thunder
 
             app.Run(async (context) =>
             {
+                // change web server header
+                context.Response.Headers.Add("Server", "Thunder");
+
                 var found = false;
                 // routes
                 foreach (var item in Server.Routes[context.Request.Method])
@@ -64,14 +65,6 @@ namespace Thunder
                 if (!found)
                     context.Response.StatusCode = 404;
             });
-
-            /*
-            app.Run(async context =>
-            {
-                if (context.Request.Path.Value == "/hello")
-                    await context.Response.WriteAsync("Hello from /hello");
-            });*/
         }
-
     }
 }

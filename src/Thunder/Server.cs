@@ -14,8 +14,6 @@ using System.IO;
 
 namespace Thunder
 {
-    
-
     public  static partial class Server
     {
         static public void SetViews(string relativePath)
@@ -23,11 +21,13 @@ namespace Thunder
             var folder = Path.Combine(Environment.CurrentDirectory, relativePath);
             DirectoryInfo dir = new DirectoryInfo(folder);
 
+            // html static page
             foreach (var item in Directory.GetFiles(folder, "*.html", SearchOption.AllDirectories))
             {
                 FileInfo fi = new FileInfo(item);
                 Func<HttpContext, Task> func = async delegate (HttpContext context)
                 {
+                    context.Response.Headers.Add("Content-Type", "text/html; charset=utf-8");
                     await context.Response.WriteAsync(await File.ReadAllTextAsync(item));
                 };
 
@@ -37,6 +37,7 @@ namespace Thunder
 
                 Get(relativeRoute, func);
             }
+
         }
 
         public static void Run()
